@@ -55,7 +55,7 @@ Use Spring Initializr with:
 ```yaml id="2qv8yl"
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/reddit_clone
+    url: jdbc:postgresql://localhost:5432/comunatee
     username: postgres
     password: password
   jpa:
