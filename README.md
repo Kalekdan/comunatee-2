@@ -1,5 +1,45 @@
 # Comunatee (React + Spring Boot)
 
+## Running the App
+
+### Prerequisites
+
+* Docker (for PostgreSQL)
+* Java 17+ (e.g. Java 21 via SDKMAN)
+* Maven 3.x
+* Node.js 18+
+
+### 1. Start the database
+
+```bash
+docker compose up -d
+```
+
+This starts a PostgreSQL instance on port `5432`.
+
+### 2. Start the backend
+
+```bash
+cd backend
+JAVA_HOME=/path/to/java17+ mvn spring-boot:run
+```
+
+The Spring Boot API will start on **http://localhost:8080**. Mock data is automatically seeded on first run.
+
+> **Note:** There is no Maven wrapper (`mvnw`) — use a system `mvn` install. Spring Boot 3.x requires Java 17 or higher.
+
+### 3. Start the frontend
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+The React app will start on **http://localhost:5173** (or the next available port).
+
+---
+
 ## Overview
 
 This project is an alternative to Reddit built with:
@@ -37,7 +77,7 @@ root/
 
 ---
 
-# ⚙️ Backend (Spring Boot)
+# Backend (Spring Boot)
 
 ## 1. Setup
 
