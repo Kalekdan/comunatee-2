@@ -2,16 +2,33 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import API from '../api'
 import PostCard from '../components/PostCard'
+import { matchesCommunitySlug } from '../utils/routes'
 
 export default function CommunityPage() {
-  const { communityId } = useParams()
+  const { communitySlug } = useParams()
   const [community, setCommunity] = useState(null)
   const [posts, setPosts] = useState([])
+  const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
-    API.get(`/communities/${communityId}`).then(r => setCommunity(r.data))
-    API.get(`/posts/community/${communityId}`).then(r => setPosts(r.data))
-  }, [communityId])
+    setNotFound(false)
+    setCommunity(null)
+    setPosts([])
+
+    API.get('/communities').then(({ data }) => {
+      const matchedCommunity = data.find(candidate => matchesCommunitySlug(candidate, communitySlug))
+
+      if (!matchedCommunity) {
+        setNotFound(true)
+        return
+      }
+
+      setCommunity(matchedCommunity)
+      return API.get(`/posts/community/${matchedCommunity.id}`).then(r => setPosts(r.data))
+    })
+  }, [communitySlug])
+
+  if (notFound) return <p>Community not found.</p>
 
   if (!community) return <p>Loading...</p>
 

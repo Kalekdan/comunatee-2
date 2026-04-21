@@ -12,7 +12,9 @@ function App() {
       <div style={{ maxWidth: 900, margin: '20px auto', padding: '0 16px' }}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/c/:communityId" element={<CommunityPage />} />
+          <Route path="/c/:communitySlug" element={<CommunityPage />} />
+          <Route path="/c/:communitySlug/post/:postId" element={<PostPage />} />
+          <Route path="/c/:communitySlug/p/:postSlug" element={<PostPage />} />
           <Route path="/post/:postId" element={<PostPage />} />
         </Routes>
       </div>

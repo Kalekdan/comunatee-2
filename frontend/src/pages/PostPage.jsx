@@ -1,30 +1,39 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import API from '../api'
 import VoteButtons from '../components/VoteButtons'
 import CommentTree from '../components/CommentTree'
+import { extractPostId, getCommunityPath } from '../utils/routes'
 
 export default function PostPage() {
-  const { postId } = useParams()
+  const { postId, postSlug } = useParams()
   const [post, setPost] = useState(null)
   const [comments, setComments] = useState([])
   const [newComment, setNewComment] = useState('')
+  const [loadError, setLoadError] = useState(false)
 
   const MOCK_USER_ID = 1 // In a real app this would come from auth context
+  const resolvedPostId = extractPostId(postSlug || postId)
 
   useEffect(() => {
-    API.get(`/posts/${postId}`).then(r => setPost(r.data))
-    API.get(`/comments/post/${postId}`).then(r => setComments(r.data))
-  }, [postId])
+    if (!resolvedPostId) {
+      setLoadError(true)
+      return
+    }
+
+    setLoadError(false)
+    API.get(`/posts/${resolvedPostId}`).then(r => setPost(r.data))
+    API.get(`/comments/post/${resolvedPostId}`).then(r => setComments(r.data))
+  }, [resolvedPostId])
 
   const handleVotePost = (voteType) => {
-    API.post(`/posts/${postId}/vote`, { userId: MOCK_USER_ID, voteType })
+    API.post(`/posts/${resolvedPostId}/vote`, { userId: MOCK_USER_ID, voteType })
       .then(r => setPost(r.data))
   }
 
   const handleSubmitComment = (e) => {
     e.preventDefault()
-    API.post('/comments', { postId: Number(postId), authorId: MOCK_USER_ID, body: newComment })
+    API.post('/comments', { postId: resolvedPostId, authorId: MOCK_USER_ID, body: newComment })
       .then(r => {
         setComments(prev => [...prev, r.data])
         setNewComment('')
@@ -44,6 +53,8 @@ export default function PostPage() {
       .then(r => setComments(prev => prev.map(c => c.id === r.data.id ? r.data : c)))
   }
 
+  if (loadError) return <p>Post not found.</p>
+
   if (!post) return <p>Loading...</p>
 
   return (
@@ -53,7 +64,9 @@ export default function PostPage() {
           <VoteButtons score={post.score} onVote={handleVotePost} />
           <div>
             <h2>{post.title}</h2>
-            <small>posted by u/{post.author?.username} in c/{post.community?.name}</small>
+            <small>
+              posted by u/{post.author?.username} in <Link to={getCommunityPath(post.community)}>c/{post.community?.name}</Link>
+            </small>
             <p style={{ marginTop: 12 }}>{post.body}</p>
             <small>{post.commentCount} comments</small>
           </div>
