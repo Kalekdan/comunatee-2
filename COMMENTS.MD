@@ -74,13 +74,10 @@ commentRepository.save(c);
 
 ---
 
-## Depth Limit
+## Depth Tracking
 
-```java id="2yxyrc"
-if (parent.getDepth() >= 10) {
-    throw new RuntimeException("Max depth reached");
-}
-```
+The `depth` field is still incremented for each reply so the UI can indent and
+render nested threads, but replies are not capped at a fixed maximum depth.
 
 ---
 

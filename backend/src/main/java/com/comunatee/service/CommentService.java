@@ -47,10 +47,6 @@ public class CommentService {
         Comment parent = commentRepository.findById(parentId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Parent comment not found"));
 
-        if (parent.getDepth() >= 10) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Max comment depth reached");
-        }
-
         User author = userRepository.findById(authorId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
