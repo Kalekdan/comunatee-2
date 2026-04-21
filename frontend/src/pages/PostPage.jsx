@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import API from '../api'
 import VoteButtons from '../components/VoteButtons'
 import CommentTree from '../components/CommentTree'
-import { extractPostId, getCommunityPath } from '../utils/routes'
+import { extractPostId, getCommunityPath, getUserPath } from '../utils/routes'
 
 export default function PostPage() {
   const { postId, postSlug } = useParams()
@@ -65,7 +65,7 @@ export default function PostPage() {
           <div>
             <h2>{post.title}</h2>
             <small>
-              posted by u/{post.author?.username} in <Link to={getCommunityPath(post.community)}>c/{post.community?.name}</Link>
+              posted by <Link to={getUserPath(post.author)}>u/{post.author?.username}</Link> in <Link to={getCommunityPath(post.community)}>c/{post.community?.name}</Link>
             </small>
             <p style={{ marginTop: 12 }}>{post.body}</p>
             <small>{post.commentCount} comments</small>

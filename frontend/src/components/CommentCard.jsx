@@ -1,5 +1,7 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import VoteButtons from './VoteButtons'
+import { getUserPath } from '../utils/routes'
 
 export default function CommentCard({ comment, onReply, onVote, children }) {
   const [replying, setReplying] = useState(false)
@@ -18,7 +20,7 @@ export default function CommentCard({ comment, onReply, onVote, children }) {
       <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
         <VoteButtons score={comment.score} onVote={(v) => onVote(comment.id, v)} />
         <div style={{ flex: 1 }}>
-          <small style={{ color: '#888' }}>u/{comment.author?.username} · depth {comment.depth}</small>
+          <small style={{ color: '#888' }}><Link to={getUserPath(comment.author)}>u/{comment.author?.username}</Link> · depth {comment.depth}</small>
           <p style={{ margin: '4px 0' }}>{comment.deleted ? <em>[deleted]</em> : comment.body}</p>
           <button
             onClick={() => setReplying(!replying)}

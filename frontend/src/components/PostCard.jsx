@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { getCommunityPath, getPostPath } from '../utils/routes'
+import { getCommunityPath, getPostPath, getUserPath } from '../utils/routes'
 
 export default function PostCard({ post }) {
   return (
@@ -12,7 +12,7 @@ export default function PostCard({ post }) {
         <Link to={getPostPath(post)} style={{ fontWeight: 'bold', fontSize: 16 }}>{post.title}</Link>
         <div style={{ fontSize: 12, color: '#888', marginTop: 4 }}>
           <Link to={getCommunityPath(post.community)}>c/{post.community?.name}</Link>
-          {' · '}u/{post.author?.username}
+          {' · '}<Link to={getUserPath(post.author)}>u/{post.author?.username}</Link>
           {' · '}
           {post.commentCount} comments
         </div>

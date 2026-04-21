@@ -24,6 +24,11 @@ export function getPostPath(post) {
   return `${getCommunityPath(post?.community)}/p/${encodeURIComponent(getPostSlug(post))}`
 }
 
+export function getUserPath(user) {
+  if (!user) return '#'
+  return `/u/${encodeURIComponent(user.username || String(user.id))}`
+}
+
 export function extractPostId(postParam) {
   const value = decodeURIComponent(postParam || '')
   const slugMatch = value.match(/_(\d+)$/)

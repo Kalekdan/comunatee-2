@@ -7,4 +7,5 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByCommunityIdOrderByScoreDesc(Long communityId);
     List<Post> findAllByOrderByScoreDesc();
+    List<Post> findByAuthorIdOrderByScoreDesc(Long authorId);
 }
