@@ -24,11 +24,20 @@ export default function ProfilePage() {
 
   return (
     <div>
-      <div style={{ background: 'white', borderRadius: 4, padding: 20, marginBottom: 16 }}>
-        <h2 style={{ margin: 0 }}>u/{user.username}</h2>
-        <div style={{ color: '#888', fontSize: 13, marginTop: 8, display: 'flex', gap: 24 }}>
-          <span>Post karma: <strong>{user.postRating}</strong></span>
-          <span>Comment karma: <strong>{user.commentRating}</strong></span>
+      <div style={{ background: 'white', borderRadius: 4, padding: 20, marginBottom: 16, display: 'flex', gap: 20, alignItems: 'flex-start' }}>
+        {user.profilePicUrl && (
+          <img
+            src={user.profilePicUrl}
+            alt={user.username}
+            style={{ width: 100, height: 100, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
+          />
+        )}
+        <div>
+          <h2 style={{ margin: 0 }}>u/{user.username}</h2>
+          <div style={{ color: '#888', fontSize: 13, marginTop: 8, display: 'flex', gap: 24 }}>
+            <span>Post karma: <strong>{user.postRating}</strong></span>
+            <span>Comment karma: <strong>{user.commentRating}</strong></span>
+          </div>
         </div>
       </div>
 
